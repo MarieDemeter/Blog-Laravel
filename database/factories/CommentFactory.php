@@ -20,23 +20,18 @@ class CommentFactory extends Factory
     {
 
         $random = rand(0, 1);
-        $user_id = null;
-        $speudo = null;
-        $email = null;
+        $arr = [
+            'content' => $this->faker->text(),
+            'article_id' => Article::inRandomOrder()->first(),
+        ];
 
         if ($random > 0.5) {
-            $user_id = User::inRandomOrder()->value('id');
+            $arr['user_id'] = User::inRandomOrder()->first();
         } else {
-            $speudo = $this->faker->name();
-            $email = $this->faker->email();
+            $arr['pseudo'] = $this->faker->name();
+            $arr['email'] = $this->faker->email();
         }
 
-        return [
-            'content' => $this->faker->text(),
-            'article_id' => Article::inRandomOrder()->value('id'),
-            'user_id' => $user_id,
-            'speudo' => $speudo,
-            'email' => $email,
-        ];
+        return $arr;
     }
 }
