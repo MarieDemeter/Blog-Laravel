@@ -24,8 +24,5 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
         ]);
 
-        foreach (Comment::all()->where('user_id', !null) as $comment) {
-            
-        }
     }
 }
