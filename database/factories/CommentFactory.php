@@ -18,7 +18,6 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
-
         $random = rand(0, 1);
         $arr = [
             'content' => $this->faker->text(),

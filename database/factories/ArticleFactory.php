@@ -20,7 +20,7 @@ class ArticleFactory extends Factory
         return [
             'title' => $this->faker->text(70),
             'content' => $this->faker->text(5000),
-            'user_id'=> User::inRandomOrder()->first(),
+            'user_id' => User::inRandomOrder()->first(),
         ];
     }
 }

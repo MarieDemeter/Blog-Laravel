@@ -15,11 +15,13 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
-    }    
+    }
+
     public function articles()
     {
         return $this->hasMany(Article::class);
     }
+
     /**
      * The attributes that are mass assignable.
      *

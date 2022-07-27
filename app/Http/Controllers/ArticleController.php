@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -15,7 +14,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at')->paginate(10);
+        $articles = Article::withCount('comments')->latest()->paginate();
+
         return view('home', ['articles' => $articles]);
     }
 
@@ -48,7 +48,11 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        //
+        // Laravel interrogera l'id par défaut sur le model Article
+        $article = Article::withCount('comments')->find($id);
+
+
+        return view('article', ['article' => $article]);
     }
 
     /**
