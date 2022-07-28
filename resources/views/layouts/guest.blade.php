@@ -14,6 +14,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
+        @if(session()->has('success'))
+        <div class="bg-green-500 round p-6 m-6">
+            {{ session()->get('success') }}
+        </div>
+        @endif
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
         </div>
