@@ -46,7 +46,7 @@ class CommentController extends Controller
         }
 
         $comment->save();
-        
+
         return redirect()->route('article', $validated['article_id'])->with('success', 'Votre commentaire a bien été ajouté.');
     }
 }

@@ -61,9 +61,11 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Article $article)
     {
-        //
+        $article->loadCount('comments');
+
+        return view('admin.article', ['article' => $article]);
     }
 
     /**
@@ -72,9 +74,9 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        return view('admin.edit_article', ['article' => $article]);
     }
 
     /**
@@ -84,9 +86,21 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $article)
     {
-        //
+        $validated = $request->validate([
+            'article_id' => 'required|exists:App\Models\Article,id',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:5000',
+        ]);
+
+        $article->title = $validated['title'];
+        $article->content = $validated['content'];
+        $article->user_id = Auth::user()->id;
+
+        $article->save();
+
+        return redirect(route('dashboard.articles'));
     }
 
     /**
@@ -95,8 +109,19 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        //
+        $comments = $article->comments;
+
+        if ($comments) {
+            foreach ($comments as $comment) {
+                $comment->delete();
+            }
+        }
+
+
+        $article->delete();
+
+        return redirect(route('dashboard.articles'));
     }
 }

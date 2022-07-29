@@ -11,7 +11,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     @foreach($articles as $article)
                     <div>
-                        <a href="{{route('article', $article->id)}}">
+                        <a href="{{route('dashboard.article.show', $article->id)}}">
                             <h2 class="text-2xl"> {{$article->title}} </h2>
                         </a>
                         @php
