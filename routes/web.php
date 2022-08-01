@@ -23,6 +23,7 @@ Route::get('/article/{article}', [ArticleController::class, 'show'])->name('arti
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
 
 Route::middleware(['auth', 'admin'])->group(function () {
+
     Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/articles', [AdminArticleController::class, 'index'])->name('dashboard.articles');
     Route::get('/dashboard/create_article', [AdminArticleController::class, 'create'])->name('dashboard.article.create');
@@ -35,6 +36,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard/comment/{comment}', [AdminCommentController::class, 'edit'])->name('dashboard.comment.edit');
     Route::put('/dashboard/comment/{comment}', [AdminCommentController::class, 'update'])->name('dashboard.comment.update');
     Route::delete('/dashboard/comment/{comment}', [AdminCommentController::class, 'destroy'])->name('dashboard.comment.destroy');
+    
 });
 
 require __DIR__.'/auth.php';
