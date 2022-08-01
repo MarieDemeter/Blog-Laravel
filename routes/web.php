@@ -5,6 +5,8 @@ use App\Http\Controllers\admin\CommentController as AdminCommentController;
 use App\Http\Controllers\admin\DashBoardController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\json\ArticleController as JsonArticleController;
+use App\Http\Controllers\json\CommentController as JsonCommentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +24,10 @@ Route::get('/', [ArticleController::class, 'index'])->name('home');
 Route::get('/article/{article}', [ArticleController::class, 'show'])->name('article');
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
 
+Route::get('/json', [JsonArticleController::class, 'index'])->name('home.json');
+Route::get('/json/article/{article}', [JsonArticleController::class, 'show'])->name('article.json');
+Route::post('/json/comment', [JsonCommentController::class, 'store'])->name('comment.store.json');
+
 Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');
@@ -36,7 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard/comment/{comment}', [AdminCommentController::class, 'edit'])->name('dashboard.comment.edit');
     Route::put('/dashboard/comment/{comment}', [AdminCommentController::class, 'update'])->name('dashboard.comment.update');
     Route::delete('/dashboard/comment/{comment}', [AdminCommentController::class, 'destroy'])->name('dashboard.comment.destroy');
-    
+
 });
 
 require __DIR__.'/auth.php';
