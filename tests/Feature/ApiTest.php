@@ -64,6 +64,8 @@ class ApiArticleTest extends TestCase
         $article = Article::find(99);
 
         $response = $this->getJson('/api/article/99');
+        $response->assertStatus(200);
+
 
         $response->assertJson(
             fn (AssertableJson $json) => $json->where('id', 99)
@@ -118,6 +120,22 @@ class ApiArticleTest extends TestCase
         ]);
 
         $response->assertJsonPath('article_id', 1);
+        $response->assertJsonPath('content', 'bla bla bla');
+        $response->assertJsonPath('pseudo', 'test');
+        $response->assertJsonPath('email', 'test@test.fr');
+    }
+
+    //MENDATORY
+
+    public function test_the_api_comment()
+    {
+        $response = $this->postJson('/api/comment', [
+            'content' => 'bla bla bla',
+            'pseudo' => 'test',
+            'email' => 'test@test.fr',
+        ]);
+        $response->assertStatus(422);
+
         $response->assertJsonPath('content', 'bla bla bla');
         $response->assertJsonPath('pseudo', 'test');
         $response->assertJsonPath('email', 'test@test.fr');

@@ -5,14 +5,17 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
 
 class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        dd($request->all());
+        $validator = Validator::make($request->all(), [
             'article_id' => 'required|exists:App\Models\Article,id',
             'content' => 'required|string|max:2000',
             'pseudo' => [
@@ -29,6 +32,13 @@ class CommentController extends Controller
             ],
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);
+        }
+
+
+        $validated = $validator->validated();
+
         $comment = new Comment;
         $comment->article_id = $validated['article_id'];
         $comment->content = $validated['content'];
@@ -42,6 +52,6 @@ class CommentController extends Controller
 
         $comment->save();
 
-        return response()->json($comment);
+        return response()->json($comment, 201);
     }
 }

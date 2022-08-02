@@ -16,7 +16,7 @@ class ArticleController extends Controller
     {
         $articles = Article::withCount('comments')->latest()->paginate();
 
-        return response()->json($articles);
+        return response()->json($articles, 200);
     }
 
     /**
@@ -27,8 +27,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $article->loadCount('comments');
+        $article->load('user')->load('comments.user');
 
-        return response()->json($article);
+        return response()->json($article, 200);
     }
 }

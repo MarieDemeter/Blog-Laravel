@@ -22,13 +22,11 @@ class CommentController extends Controller
             'content' => 'required|string|max:2000',
             'pseudo' => [
                 Rule::excludeIf(Auth::check()),
-                'required',
                 'string',
                 'max:255',
             ],
             'email' => [
                 Rule::excludeIf(Auth::check()),
-                'required',
                 'email',
                 'max:255',
             ],
