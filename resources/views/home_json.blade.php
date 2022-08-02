@@ -2,8 +2,6 @@
     <div id='feed'></div>
     <div id='pagination'></div>
     <script type='text/javascript'>
-
-        
         fetch("http://blog-laravel.local/api/")
             .then(
                 response => response.json()
@@ -17,7 +15,7 @@
             for (article of articles['data']) {
                 let div = document.createElement("div");
                 let title = document.createElement("a");
-                title.setAttribute('href', 'http://blog-laravel.local/json/article/'.concat(article.id))
+                title.setAttribute('href', 'http://blog-laravel.local/json/article/'.concat(article.id));
                 let h1 = document.createElement("h1");
                 h1.className = 'text-2xl';
                 let content = document.createElement("p");
@@ -45,7 +43,12 @@
             for (let i = 0; i < articles['links'].length; i++) {
                 let number = document.createElement('a');
                 number.className = 'p-5';
-                number.setAttribute('href', articles['links'][i]['url']);
+
+                if (articles['links'][i]['url'] != null) {
+                    let string = articles['links'][i]['url'].split("?");
+                    console.log = string;
+                    number.setAttribute('href', "http://blog-laravel.local/json?".concat(string[1]));
+                }
                 number.innerHTML = i;
 
                 div.append(number);
