@@ -14,7 +14,6 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        dd($request->all());
         $validator = Validator::make($request->all(), [
             'article_id' => 'required|exists:App\Models\Article,id',
             'content' => 'required|string|max:2000',

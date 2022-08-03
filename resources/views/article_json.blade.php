@@ -46,7 +46,7 @@
                     commentAuthor.innerHTML = "De :".concat(' ', comment.user.name);
 
                 } else {
-                    commentAuthor.innerHTML = "De :".concat(' ', comment.user.pseudo);
+                    commentAuthor.innerHTML = "De :".concat(' ', comment.pseudo);
                 }
                 commentDiv.append(commentContent, commentAuthor);
                 commentsDiv.append(commentDiv);
@@ -55,7 +55,7 @@
             //FORMULAIRE
 
             let form = document.createElement("form");
-//            form.setAttribute('method','POST');
+            //            form.setAttribute('method','POST');
 
             let divPseudo = document.createElement("div");
             let labelPseudo = document.createElement("label");
@@ -96,7 +96,7 @@
             submitButton.setAttribute('id', 'submit');
             divButton.append(submitButton);
 
-            submitButton.addEventListener("click", function(e){
+            submitButton.addEventListener("click", function(e) {
                 e.preventDefault();
                 sendFormData(article.id);
             })
@@ -113,22 +113,24 @@
             let content = document.getElementById('content');
 
             let data = {
-                article_id : articleId,
-                pseudo : pseudo.value,
-                email : email.value,
-                content : content.value,
+                article_id: articleId,
+                pseudo: pseudo.value,
+                email: email.value,
+                content: content.value,
                 _token: '{{ csrf_token() }}',
             };
 
             fetch("http://blog-laravel.local/api/comment/", {
                     method: "POST",
-                    header :{ 
+                    headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(data),
-                }/*)
+                })
                 .then(
-                    location.reload*/
+                    response => response.json()
+                ).then(
+                    location.reload()
                 ).catch(
                     error
                 );
