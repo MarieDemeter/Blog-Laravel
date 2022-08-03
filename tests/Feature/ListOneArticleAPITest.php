@@ -12,24 +12,14 @@ class ListOneArticleAPITest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_print_article_status()
-    {
-        $this->seed(DatabaseSeeder::class);
-
-        $firstArticle = Article::latest()->first();
-
-        $response = $this->getJson('/api/article/' . $firstArticle->id);
-        $response->assertStatus(200);
-    }
-
     public function test_the_api_article_returns_json_file_with_correct_data()
     {
-        $this->seed(DatabaseSeeder::class);
-        $firstArticle = Article::latest()->first();
+        Article::factory(100)->forUser()->create();
+        //$this->seed(DatabaseSeeder::class);
+        $article = Article::latest()->first();
 
-        $article = Article::find($firstArticle->id);
-
-        $response = $this->getJson('/api/article/' . $firstArticle->id);
+        $response = $this->getJson('/api/articles/'.$article->id);
+        $response->assertStatus(200);
 
         $response->assertJson(
             fn (AssertableJson $json) => $json->where('id', $article->id)
@@ -40,4 +30,9 @@ class ListOneArticleAPITest extends TestCase
         );
     }
 
+    public function test_the_api_article_returns_a_404_error_if_article_id_do_not_exist()
+    {
+        $response = $this->getJson('/api/articles/1');
+        $response->assertStatus(404);
+    }
 }

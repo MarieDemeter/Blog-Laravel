@@ -2,7 +2,7 @@
     <div id='feed'></div>
     <div id='pagination'></div>
     <script type='text/javascript'>
-        fetch("http://blog-laravel.local/api/")
+        fetch("http://blog-laravel.local/api/articles/")
             .then(
                 response => response.json()
             ).then(

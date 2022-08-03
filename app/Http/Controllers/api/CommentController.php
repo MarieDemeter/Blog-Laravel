@@ -9,12 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-
 class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'article_id' => 'required|exists:App\Models\Article,id',
             'content' => 'required|string|max:2000',
             'pseudo' => [
@@ -31,13 +30,6 @@ class CommentController extends Controller
             ],
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 422);
-        }
-
-
-        $validated = $validator->validated();
-
         $comment = new Comment;
         $comment->article_id = $validated['article_id'];
         $comment->content = $validated['content'];
@@ -51,6 +43,6 @@ class CommentController extends Controller
 
         $comment->save();
 
-        return response()->json($comment, 201);
+        return response($comment, 201);
     }
 }

@@ -4,7 +4,7 @@
         const queryString = window.location.href;
         const urlParamPage = queryString.split("json/article/");
 
-        fetch("http://blog-laravel.local/api/article/".concat(urlParamPage[1]))
+        fetch("http://blog-laravel.local/api/articles/".concat(urlParamPage[1]))
             .then(
                 response => response.json()
             ).then(
@@ -120,7 +120,7 @@
                 _token: '{{ csrf_token() }}',
             };
 
-            fetch("http://blog-laravel.local/api/comment/", {
+            fetch("http://blog-laravel.local/api/comments/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

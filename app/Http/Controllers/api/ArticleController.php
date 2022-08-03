@@ -16,6 +16,10 @@ class ArticleController extends Controller
     {
         $articles = Article::withCount('comments')->latest()->paginate();
 
+        if (count($articles) == 0) {
+            return response($articles, 204);
+        }
+
         return response()->json($articles, 200);
     }
 

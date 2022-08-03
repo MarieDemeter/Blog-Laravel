@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', [ArticleController::class, 'index'])->name('home');
-Route::get('/article/{article}', [ArticleController::class, 'show'])->name('article');
-Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
+Route::get('/articles', [ArticleController::class, 'index'])->name('home');
+Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('article');
+Route::post('/comments', [CommentController::class, 'store'])->name('comment.store');
