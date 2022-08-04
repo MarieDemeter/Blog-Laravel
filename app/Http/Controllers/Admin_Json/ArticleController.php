@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin_Json;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
@@ -16,9 +16,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::withCount('comments')->latest()->paginate();
-
-        return view('admin.articles', ['articles' => $articles]);
+        return view('Admin_Json.articles');
     }
 
     /**
@@ -28,7 +26,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('admin.create_article');
+        return view('Admin_Json.create_article');
     }
 
     /**
@@ -52,7 +50,7 @@ class ArticleController extends Controller
 
         $article->save();
 
-        return redirect()->route('dashboard')->with('success', 'Votre article a bien été ajouté.');
+        return redirect()->route('json.dashboard')->with('success', 'Votre article a bien été ajouté.');
     }
 
     /**
@@ -63,9 +61,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $article->loadCount('comments');
-
-        return view('admin.article', ['article' => $article]);
+        return view('Admin_Json.article');
     }
 
     /**
@@ -76,7 +72,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('admin.edit_article', ['article' => $article]);
+        return view('Admin_Json.edit_article');
     }
 
     /**
@@ -100,7 +96,7 @@ class ArticleController extends Controller
 
         $article->save();
 
-        return redirect(route('dashboard.articles'));
+        return redirect(route('json.dashboard.articles'));
     }
 
     /**
@@ -111,10 +107,16 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $article->comments()->delete();
+        $comments = $article->comments;
+
+        if ($comments) {
+            foreach ($comments as $comment) {
+                $comment->delete();
+            }
+        }
 
         $article->delete();
 
-        return redirect(route('dashboard.articles'));
+        return redirect(route('json.dashboard.articles'));
     }
 }

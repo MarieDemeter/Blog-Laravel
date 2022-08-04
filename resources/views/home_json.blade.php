@@ -31,7 +31,6 @@
                 nb_of_comments.innerHTML = "Il y a ".concat(' ', article.comments_count).concat(' ', "commentaire(s) sur cet article.");
                 time_ago.innerHTML = article.created_at;
 
-
                 div.append(title, content, nb_of_comments, time_ago);
                 document.getElementById("feed").append(div);
             }

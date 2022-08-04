@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\json;
+namespace App\Http\Controllers\Admin_Json;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

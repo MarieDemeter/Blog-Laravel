@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::delete('/dashboard/articles/{article}', [ArticleController::class, 'destroy'])->name('dashboard.articles.destroy');
 });
 
 Route::get('/articles', [ArticleController::class, 'index'])->name('home');

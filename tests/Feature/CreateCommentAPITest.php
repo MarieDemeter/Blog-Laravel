@@ -20,7 +20,7 @@ class CreateCommentAPITest extends TestCase
 
         $article = Article::latest()->first();
 
-        $response = $this->postJson('/api/comment', [
+        $response = $this->postJson('/api/comments', [
             'article_id' => $article->id,
             'content' => 'bla bla bla',
             'pseudo' => 'test',

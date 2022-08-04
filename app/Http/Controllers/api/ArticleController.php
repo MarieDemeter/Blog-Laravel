@@ -20,7 +20,7 @@ class ArticleController extends Controller
             return response($articles, 204);
         }
 
-        return response()->json($articles, 200);
+        return response($articles, 200);
     }
 
     /**
@@ -33,6 +33,14 @@ class ArticleController extends Controller
     {
         $article->load('user')->load('comments.user');
 
-        return response()->json($article, 200);
+        return response($article, 200);
+    }
+
+    public function destroy(Article $article)
+    {
+        $article->comments()->delete();
+        $article->delete();
+
+        return response(['deleted'=>true]);
     }
 }

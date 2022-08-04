@@ -3,6 +3,9 @@
 use App\Http\Controllers\admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\admin\CommentController as AdminCommentController;
 use App\Http\Controllers\admin\DashBoardController;
+use App\Http\Controllers\Admin_Json\ArticleController as Admin_JsonArticleController;
+use App\Http\Controllers\Admin_Json\CommentController as Admin_JsonCommentController;
+use App\Http\Controllers\Admin_Json\DashboardController as Admin_JsonDashboardController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\json\ArticleController as JsonArticleController;
@@ -26,7 +29,21 @@ Route::post('/comment', [CommentController::class, 'store'])->name('comment.stor
 
 Route::get('/json', [JsonArticleController::class, 'index'])->name('home.json');
 Route::get('/json/article/{article}', [JsonArticleController::class, 'show'])->name('article.json');
-Route::post('/json/comment', [JsonCommentController::class, 'store'])->name('comment.store.json');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('json/dashboard', [Admin_JsonDashboardController::class, 'index'])->name('json.dashboard');
+    Route::get('json/dashboard/articles', [Admin_JsonArticleController::class, 'index'])->name('json.dashboard.articles');
+    Route::get('json/dashboard/create_article', [Admin_JsonArticleController::class, 'create'])->name('json.dashboard.article.create');
+    Route::get('json/dashboard/article/{article}', [Admin_JsonArticleController::class, 'show'])->name('json.dashboard.article.show');
+   // Route::post('json/dashboard/create_article', [Admin_JsonArticleController::class, 'store'])->name('json.dashboard.article.store');
+    Route::get('json/dashboard/article/{article}/edit', [Admin_JsonArticleController::class, 'edit'])->name('json.dashboard.article.edit');
+   // Route::put('json/dashboard/article/{article}', [Admin_JsonArticleController::class, 'update'])->name('json.dashboard.article.update');
+
+    Route::get('json/dashboard/comment/{comment}', [Admin_JsonCommentController::class, 'edit'])->name('json.dashboard.comment.edit');
+   // Route::put('json/dashboard/comment/{comment}', [Admin_JsonCommentController::class, 'update'])->name('json.dashboard.comment.update');
+   // Route::delete('json/dashboard/comment/{comment}', [Admin_JsonCommentController::class, 'destroy'])->name('json.dashboard.comment.destroy');
+});
+
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');

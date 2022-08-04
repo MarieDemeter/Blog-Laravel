@@ -55,7 +55,6 @@
             //FORMULAIRE
 
             let form = document.createElement("form");
-            //            form.setAttribute('method','POST');
 
             let divPseudo = document.createElement("div");
             let labelPseudo = document.createElement("label");
