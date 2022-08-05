@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class CommentController extends Controller
@@ -44,5 +43,39 @@ class CommentController extends Controller
         $comment->save();
 
         return response($comment, 201);
+    }
+        /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Comment $comment)
+    {
+        $validated = $request->validate([
+            'article_id' => 'required|exists:App\Models\Article,id',
+            'content' => 'required|string|max:5000',
+        ]);
+
+        $comment->content = $validated['content'];
+        $comment->user_id = Auth::user()->id;
+
+        $comment->save();
+
+        return response(['update'=>true]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Comment $comment)
+    {
+        $comment->delete();
+
+        return response(['deleted'=>true]);
     }
 }

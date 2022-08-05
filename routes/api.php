@@ -16,10 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::delete('/dashboard/articles/{article}', [ArticleController::class, 'destroy'])->name('dashboard.articles.destroy');
-});
+//Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::delete('/dashboard/articles/{article}', [ArticleController::class, 'destroy'])->name('api.dashboard.articles.destroy');
+    Route::post('/dashboard/create_article', [ArticleController::class, 'store'])->name('api.dashboard.article.store');
+    Route::put('/dashboard/article/{article}', [ArticleController::class, 'update'])->name('api.dashboard.article.update');
+    Route::put('/dashboard/comment/{comment}', [CommentController::class, 'update'])->name('api.dashboard.comment.update');
+    Route::delete('/dashboard/comment/{comment}', [CommentController::class, 'destroy'])->name('api.dashboard.comment.destroy');
+//});
 
-Route::get('/articles', [ArticleController::class, 'index'])->name('home');
-Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('article');
-Route::post('/comments', [CommentController::class, 'store'])->name('comment.store');
+Route::get('/articles', [ArticleController::class, 'index'])->name('api.home');
+Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('api.articles');
+Route::post('/comments', [CommentController::class, 'store'])->name('api.comments.store');

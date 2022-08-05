@@ -27,7 +27,8 @@ class ListArticlesAPITest extends TestCase
             fn (AssertableJson $json) => $json->has(
                 'data',
                 $articles_count_PerPage,
-                fn ($json_data) => $json_data->where('id', $firstArticle->id)
+                fn ($json_data) => $json_data
+                    ->where('id', $firstArticle->id)
                     ->where('title', $firstArticle->title)
                     ->where('content', $firstArticle->content)
                     ->where('user_id', $firstArticle->user_id)

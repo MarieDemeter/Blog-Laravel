@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\Comment;
+use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -92,5 +93,24 @@ class CreateCommentAPITest extends TestCase
             'email' => 'test@test.fr',
         ]);
         $response->assertStatus(422);
+    }
+
+    public function test_post_comment_user_authenticated()
+    {
+        $user = User::factory()->create();
+        $article = Article::factory()->forUser()->create();
+        $comment = Comment::factory()
+            ->make([
+                'pseudo' => null,
+                'email' => null,
+            ]);
+        $data = [
+            'content' => $comment->content,
+            'article_id' => $article->id
+        ];
+        $response = $this->actingAs($user)->postJson(route('api.comments.store'), $data);
+        $response
+            ->assertStatus(201);
+        $this->assertDatabaseHas('comments', $data);
     }
 }

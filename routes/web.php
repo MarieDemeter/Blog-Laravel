@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ArticleController::class, 'index'])->name('home');
 Route::get('/article/{article}', [ArticleController::class, 'show'])->name('article');
 Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
-
 Route::get('/json', [JsonArticleController::class, 'index'])->name('home.json');
 Route::get('/json/article/{article}', [JsonArticleController::class, 'show'])->name('article.json');
 
@@ -35,15 +34,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('json/dashboard/articles', [Admin_JsonArticleController::class, 'index'])->name('json.dashboard.articles');
     Route::get('json/dashboard/create_article', [Admin_JsonArticleController::class, 'create'])->name('json.dashboard.article.create');
     Route::get('json/dashboard/article/{article}', [Admin_JsonArticleController::class, 'show'])->name('json.dashboard.article.show');
-   // Route::post('json/dashboard/create_article', [Admin_JsonArticleController::class, 'store'])->name('json.dashboard.article.store');
-    Route::get('json/dashboard/article/{article}/edit', [Admin_JsonArticleController::class, 'edit'])->name('json.dashboard.article.edit');
-   // Route::put('json/dashboard/article/{article}', [Admin_JsonArticleController::class, 'update'])->name('json.dashboard.article.update');
-
+    Route::get('json/dashboard/article/edit/{article}', [Admin_JsonArticleController::class, 'edit'])->name('json.dashboard.article.edit');
     Route::get('json/dashboard/comment/{comment}', [Admin_JsonCommentController::class, 'edit'])->name('json.dashboard.comment.edit');
-   // Route::put('json/dashboard/comment/{comment}', [Admin_JsonCommentController::class, 'update'])->name('json.dashboard.comment.update');
-   // Route::delete('json/dashboard/comment/{comment}', [Admin_JsonCommentController::class, 'destroy'])->name('json.dashboard.comment.destroy');
 });
-
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');
@@ -54,7 +47,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard/article/{article}/edit', [AdminArticleController::class, 'edit'])->name('dashboard.article.edit');
     Route::put('/dashboard/article/{article}', [AdminArticleController::class, 'update'])->name('dashboard.article.update');
     Route::delete('/dashboard/article/{article}', [AdminArticleController::class, 'destroy'])->name('dashboard.article.destroy');
-
     Route::get('/dashboard/comment/{comment}', [AdminCommentController::class, 'edit'])->name('dashboard.comment.edit');
     Route::put('/dashboard/comment/{comment}', [AdminCommentController::class, 'update'])->name('dashboard.comment.update');
     Route::delete('/dashboard/comment/{comment}', [AdminCommentController::class, 'destroy'])->name('dashboard.comment.destroy');

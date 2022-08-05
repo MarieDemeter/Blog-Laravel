@@ -34,7 +34,7 @@
                         </div>
 
                         <div>
-                            <a href="http://blog-laravel.local/json/dashboard/article/${article.id}/edit">
+                            <a href="http://blog-laravel.local/json/dashboard/article/edit/${article.id}">
                                 <h2 class="text-2xl"> Modifier l'article</h2>
                             </a>
 
@@ -58,15 +58,24 @@
             fetch("/api/dashboard/articles/".concat(article.id), {
                     method: "DELETE",
                 })
+                .then(function(response) {
+                    if (response.ok) {
+                        document.location.href = "http://blog-laravel.local/json/dashboard/articles";
+
+                    } else {
+                        console.log('Mauvaise réponse du réseau');
+                    }
+                })
                 .then(
-              //      setTimeout('redirect()', 1000)
+                    //      setTimeout('redirect()', 1000)
                 ).catch(
                     error
                 );
         }
 
+
         function redirect() {
-            document.location.href="http://blog-laravel.local/json/dashboard/articles"
+            document.location.href = "http://blog-laravel.local/json/dashboard/articles"
         }
 
         function error(error) {

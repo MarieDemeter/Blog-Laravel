@@ -22,7 +22,8 @@ class ListOneArticleAPITest extends TestCase
         $response->assertStatus(200);
 
         $response->assertJson(
-            fn (AssertableJson $json) => $json->where('id', $article->id)
+            fn (AssertableJson $json) => $json
+                ->where('id', $article->id)
                 ->where('title', $article->title)
                 ->where('content', $article->content)
                 ->where('user_id', $article->user_id)
